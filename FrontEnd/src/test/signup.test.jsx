@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
-import LogIn from '../components/LogIn';
+import SignUp from '../components/SignUp';
 
-describe('LogIn.jsx tests', () => {
+describe('SignUp.jsx tests', () => {
     it('should render LogIn component', () => {
-        render(<LogIn />)
+        render(<SignUp />)
     })
 
     it('should have sign in button', () => {
-        render(<LogIn />);
+        render(<SignUp />);
         const buttonText = screen.getAllByRole('button');
-        expect(buttonText).toContain('Sign In');
+        expect(buttonText).toContain(screen.getByRole('button', { name: /register/i }));
     })
 })
