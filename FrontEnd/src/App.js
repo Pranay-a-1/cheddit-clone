@@ -1,12 +1,21 @@
-//import LogIn from "./components/LogIn";
-//import SignUp from "./components/SignUp";
-import NewPost from "./components/NewPost";
+import { BrowserRouter } from "react-router-dom";
+import { Container } from 'react-bootstrap';
+import Header from "./components/Header/Header";
+import React, { useState } from 'react';
+
 
 function App() {
+  
+  const [loggedInUserData, setLoggedInUserData] = useState(undefined);
+
   return (
-    //<LogIn />
-    //<SignUp />
-    <NewPost />
+    <>
+      <Container fluid="md">
+        <BrowserRouter>
+        <Header loggedInUserData={loggedInUserData}/>
+        </BrowserRouter>
+      </Container>
+    </>
   );
 }
 
