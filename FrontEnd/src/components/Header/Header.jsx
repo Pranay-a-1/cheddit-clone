@@ -1,8 +1,6 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser, } from 'react-icons/fa'
-import { Navbar, Nav, Container, Row, Col, Button } from 'react-bootstrap';
-import { IoCreateSharp } from "react-icons/io5";
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { LoginButton, SignupButton, NewPeepButton, WelcomeButton, LogoutButton } from './HeaderButtons';  
+import { LoginButton, SignupButton, NewPeepButton, WelcomeButton, LogoutButton } from '../Header/HeaderButton';
 
 const Header = ({ loggedInUserData, setLogInStatus }) => {
   return (
