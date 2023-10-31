@@ -68,11 +68,13 @@ public class AuthControllerTest {
         registerRequest.setPassword("password");
         registerRequest.setConfirmPassword("password");
 
-        when(authService.registerUser(registerRequest)).thenReturn(new AuthenticationResponse("token", null, "testUser"));
+        when(authService.registerUser(registerRequest)).thenReturn(new AuthenticationResponse("token", "testUser"));
 
         mockMvc.perform(post("/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(registerRequest)))
                 .andExpect(status().isOk());
     }
+
+
 }

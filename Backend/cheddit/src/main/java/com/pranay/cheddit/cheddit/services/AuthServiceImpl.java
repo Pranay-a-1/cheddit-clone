@@ -37,9 +37,11 @@ public class AuthServiceImpl implements AuthService{
                 registerRequest.getEmail(), hashedPassword);
         userRepository.save(newUser);
 
+        // Generate JWT token
+        String jwt = passwordAuthService.generateJwtToken(newUser);
+
         return AuthenticationResponse.builder()
-                .token("token")
-                .expiresAt(null)
+                .token(jwt)
                 .build();
     }
 }
