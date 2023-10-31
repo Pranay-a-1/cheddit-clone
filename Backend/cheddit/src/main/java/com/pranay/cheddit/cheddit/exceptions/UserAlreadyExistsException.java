@@ -1,0 +1,7 @@
+package com.pranay.cheddit.cheddit.exceptions;
+
+public class UserAlreadyExistsException extends RuntimeException {
+    public UserAlreadyExistsException(String message) {
+        super(message);
+    }
+}
