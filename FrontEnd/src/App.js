@@ -1,7 +1,8 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import Header from "./components/Header/Header";
 import React, { useState } from 'react';
+import Signup from "./pages/SignUp";
 
 
 function App() {
@@ -12,7 +13,10 @@ function App() {
     <>
       <Container fluid="md">
         <BrowserRouter>
-        <Header loggedInUserData={loggedInUserData}/>
+          <Header loggedInUserData={loggedInUserData}/>
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
         </BrowserRouter>
       </Container>
     </>
