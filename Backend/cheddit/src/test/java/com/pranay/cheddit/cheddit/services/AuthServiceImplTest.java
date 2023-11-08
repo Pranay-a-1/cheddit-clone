@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,7 +64,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void testRegisterUser_Success() {
+    public void testRegisterUser_Success() throws ExecutionException, InterruptedException {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("testUser");
         registerRequest.setEmail("testUser@example.com");
@@ -73,7 +75,11 @@ public class AuthServiceImplTest {
         when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.empty());
         when(passwordAuthService.hashPassword(anyString())).thenReturn("hashedPassword");
 
-        AuthenticationResponse response = authService.registerUser(registerRequest);
+        CompletableFuture<AuthenticationResponse> futureResponse = authService.registerUser(registerRequest);
+
+        AuthenticationResponse response = futureResponse.get();
+
+        // AuthenticationResponse response = authSrvice.registerUser(registerRequest);
 
         assertNotNull(response);
 

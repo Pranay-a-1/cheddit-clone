@@ -12,6 +12,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import com.pranay.cheddit.cheddit.dto.RegisterRequest;
+import java.util.concurrent.CompletableFuture;
+
 
 import java.util.stream.Collectors;
 
@@ -23,14 +25,27 @@ public class AuthController {
 
     private final AuthService authService;
 
+//    @PostMapping("/register")
+//    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest) {
+//        AuthenticationResponse response = authService.registerUser(registerRequest);
+//        if (response != null && !response.getToken().isEmpty()) {
+//            return ResponseEntity.ok("User Registration Successful");
+//        } else {
+//            return ResponseEntity.badRequest().body("User Registration Failed");
+//        }
+//    }
+
+
     @PostMapping("/register")
-    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest) {
-        AuthenticationResponse response = authService.registerUser(registerRequest);
-        if (response != null && !response.getToken().isEmpty()) {
-            return ResponseEntity.ok("User Registration Successful");
-        } else {
-            return ResponseEntity.badRequest().body("User Registration Failed");
-        }
+    public CompletableFuture<ResponseEntity<String>> signup(@Valid @RequestBody RegisterRequest registerRequest) {
+        return authService.registerUser(registerRequest)
+                .thenApply(response -> {
+                    if (response != null && !response.getToken().isEmpty()) {
+                        return ResponseEntity.ok("User Registration Successful");
+                    } else {
+                        return ResponseEntity.badRequest().body("User Registration Failed");
+                    }
+                });
     }
 
 }

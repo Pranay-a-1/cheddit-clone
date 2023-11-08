@@ -1,5 +1,6 @@
 package com.pranay.cheddit.cheddit.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pranay.cheddit.cheddit.dto.AuthenticationResponse;
 import com.pranay.cheddit.cheddit.dto.RegisterRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -60,21 +62,21 @@ public class AuthControllerTest {
     }
 
 
-    @Test
-    public void testSignup() throws Exception {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("testUser");
-        registerRequest.setEmail("testUser@example.com");
-        registerRequest.setPassword("password");
-        registerRequest.setConfirmPassword("password");
+   @Test
+   public void testSignup() throws Exception  {
+       RegisterRequest registerRequest = new RegisterRequest();
+       registerRequest.setUsername("testUser");
+       registerRequest.setEmail("testUser@example.com");
+       registerRequest.setPassword("password");
+       registerRequest.setConfirmPassword("password");
 
-        when(authService.registerUser(registerRequest)).thenReturn(new AuthenticationResponse("token", "testUser"));
+       when(authService.registerUser(registerRequest)).thenReturn(CompletableFuture.completedFuture(new AuthenticationResponse("token", "testUser")));
 
-        mockMvc.perform(post("/user/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(registerRequest)))
-                .andExpect(status().isOk());
-    }
+       mockMvc.perform(post("/user/register")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(new ObjectMapper().writeValueAsString(registerRequest)))
+               .andExpect(status().isOk());
+   }
 
 
 }

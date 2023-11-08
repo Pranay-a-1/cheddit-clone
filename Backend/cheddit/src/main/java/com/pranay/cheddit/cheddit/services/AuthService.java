@@ -4,6 +4,8 @@ import com.pranay.cheddit.cheddit.dto.AuthenticationResponse;
 import com.pranay.cheddit.cheddit.dto.RegisterRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface AuthService {
-    AuthenticationResponse registerUser(RegisterRequest registerRequest) ;
+    CompletableFuture<AuthenticationResponse> registerUser(RegisterRequest registerRequest) ;
 }
