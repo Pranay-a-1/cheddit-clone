@@ -35,4 +35,9 @@ public class PasswordAuthServiceImpl implements PasswordAuthService {
                 .setExpiration(expiryDate)  // 5 days
                 .compact();
     }
+
+    @Override
+    public boolean validatePassword(String password, String password1) {
+        return BCrypt.checkpw(password, password1);
+    }
 }

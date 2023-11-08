@@ -1,6 +1,7 @@
 package com.pranay.cheddit.cheddit.controllers;
 
 import com.pranay.cheddit.cheddit.dto.AuthenticationResponse;
+import com.pranay.cheddit.cheddit.dto.LoginRequest;
 import com.pranay.cheddit.cheddit.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -25,16 +26,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-//    @PostMapping("/register")
-//    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest) {
-//        AuthenticationResponse response = authService.registerUser(registerRequest);
-//        if (response != null && !response.getToken().isEmpty()) {
-//            return ResponseEntity.ok("User Registration Successful");
-//        } else {
-//            return ResponseEntity.badRequest().body("User Registration Failed");
-//        }
-//    }
-
 
     @PostMapping("/register")
     public CompletableFuture<ResponseEntity<String>> signup(@Valid @RequestBody RegisterRequest registerRequest) {
@@ -46,6 +37,16 @@ public class AuthController {
                         return ResponseEntity.badRequest().body("User Registration Failed");
                     }
                 });
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        AuthenticationResponse response = authService.loginUser(loginRequest);
+        if (response != null && !response.getToken().isEmpty()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
 }

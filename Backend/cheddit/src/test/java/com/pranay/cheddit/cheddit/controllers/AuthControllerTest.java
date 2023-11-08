@@ -3,6 +3,7 @@ package com.pranay.cheddit.cheddit.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pranay.cheddit.cheddit.dto.AuthenticationResponse;
+import com.pranay.cheddit.cheddit.dto.LoginRequest;
 import com.pranay.cheddit.cheddit.dto.RegisterRequest;
 import com.pranay.cheddit.cheddit.services.AuthService;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,38 @@ public class AuthControllerTest {
                .content(new ObjectMapper().writeValueAsString(registerRequest)))
                .andExpect(status().isOk());
    }
+
+    @Test
+    public void testLogin_fails() throws Exception {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
+
+        when(authService.loginUser(loginRequest)).thenReturn(null);
+
+        mockMvc.perform(post("/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(loginRequest)))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void testLogin_throws_Error() throws Exception {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
+
+        when(authService.loginUser(loginRequest)).thenThrow(new RuntimeException("Error"));
+
+
+        mockMvc.perform(post("/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(loginRequest)))
+                .andExpect(status().isBadRequest());
+
+    }
+
 
 
 }

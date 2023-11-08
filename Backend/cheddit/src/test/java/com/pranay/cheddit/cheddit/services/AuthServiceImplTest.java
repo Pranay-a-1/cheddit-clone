@@ -1,9 +1,11 @@
 package com.pranay.cheddit.cheddit.services;
 
 import com.pranay.cheddit.cheddit.dto.AuthenticationResponse;
+import com.pranay.cheddit.cheddit.dto.LoginRequest;
 import com.pranay.cheddit.cheddit.dto.RegisterRequest;
 import com.pranay.cheddit.cheddit.exceptions.PasswordsDoNotMatchException;
 import com.pranay.cheddit.cheddit.exceptions.UserAlreadyExistsException;
+import com.pranay.cheddit.cheddit.exceptions.UserNotFoundException;
 import com.pranay.cheddit.cheddit.models.User;
 import com.pranay.cheddit.cheddit.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +37,6 @@ public class AuthServiceImplTest {
 
     @InjectMocks
     private AuthServiceImpl authService;
-
 
 
     @Test
@@ -79,12 +80,60 @@ public class AuthServiceImplTest {
 
         AuthenticationResponse response = futureResponse.get();
 
-        // AuthenticationResponse response = authSrvice.registerUser(registerRequest);
-
         assertNotNull(response);
 
     }
 
 
+    @Test
+    public void testLoginUser_UserNotFound() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
 
+        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> authService.loginUser(loginRequest));
+
+    }
+
+    @Test
+    public void testLoginUser_PasswordsDoNotMatch() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
+
+        User user = new User();
+        user.setEmail("testUser@gmail.com");
+        user.setPassword("hashedPassword");
+        user.setUsername("testUser");
+
+        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(user));
+        when(passwordAuthService.validatePassword(loginRequest.getPassword(), user.getPassword())).thenReturn(false);
+
+        assertThrows(PasswordsDoNotMatchException.class, () -> authService.loginUser(loginRequest));
+    }
+
+    @Test
+    public void testLoginUser_Success() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
+
+        User user = new User();
+        user.setEmail(loginRequest.getEmail());
+        user.setPassword("hashedPassword");
+        user.setUsername("testUser");
+
+        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(user));
+        when(passwordAuthService.validatePassword(loginRequest.getPassword(), user.getPassword())).thenReturn(true);
+        when(passwordAuthService.generateJwtToken(user)).thenReturn("jwtToken");
+
+        AuthenticationResponse response = authService.loginUser(loginRequest);
+
+        assertNotNull(response);
+        assertEquals(response.getUsername(), user.getUsername());
+        assertEquals(response.getToken(), "jwtToken");
+
+    }
 }
