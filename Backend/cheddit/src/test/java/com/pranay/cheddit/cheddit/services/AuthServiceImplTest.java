@@ -129,11 +129,13 @@ public class AuthServiceImplTest {
         when(passwordAuthService.validatePassword(loginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(passwordAuthService.generateJwtToken(user)).thenReturn("jwtToken");
 
-        AuthenticationResponse response = authService.loginUser(loginRequest);
+        CompletableFuture<AuthenticationResponse> response = authService.loginUser(loginRequest);
 
         assertNotNull(response);
-        assertEquals(response.getUsername(), user.getUsername());
-        assertEquals(response.getToken(), "jwtToken");
+        response.thenAccept(authResponse -> {
+            assertEquals(authResponse.getUsername(), user.getUsername());
+            assertEquals(authResponse.getToken(), "jwtToken");
+        });
 
     }
 }

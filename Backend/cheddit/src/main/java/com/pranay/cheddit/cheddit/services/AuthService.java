@@ -10,5 +10,5 @@ import java.util.concurrent.CompletableFuture;
 public interface AuthService {
     CompletableFuture<AuthenticationResponse> registerUser(RegisterRequest registerRequest) ;
 
-    AuthenticationResponse loginUser(LoginRequest loginRequest);
+    CompletableFuture<AuthenticationResponse> loginUser(LoginRequest loginRequest);
 }

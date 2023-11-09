@@ -110,6 +110,19 @@ public class AuthControllerTest {
 
     }
 
+    @Test
+    public void testLogin_Success() throws Exception {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("testUser@gmail.com");
+        loginRequest.setPassword("password");
+
+        when(authService.loginUser(loginRequest)).thenReturn(CompletableFuture.completedFuture(new AuthenticationResponse("token", "testUser")));
+
+        mockMvc.perform(post("/user/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(loginRequest)))
+                .andExpect(status().isOk());
 
 
+    }
 }

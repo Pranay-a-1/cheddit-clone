@@ -5,6 +5,7 @@ import com.pranay.cheddit.cheddit.dto.LoginRequest;
 import com.pranay.cheddit.cheddit.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,11 @@ import com.pranay.cheddit.cheddit.dto.RegisterRequest;
 import java.util.concurrent.CompletableFuture;
 
 
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/user/")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -40,13 +40,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        AuthenticationResponse response = authService.loginUser(loginRequest);
-        if (response != null && !response.getToken().isEmpty()) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public CompletableFuture<ResponseEntity<AuthenticationResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
+        log.info("Async login method called on thread: " + Thread.currentThread().getName());
+        return authService.loginUser(loginRequest)
+                .thenApply(response -> {
+                    if (response != null && !response.getToken().isEmpty()) {
+                        return ResponseEntity.ok(response);
+                    } else {
+                        return ResponseEntity.badRequest().body(null);
+                    }
+                });
+
     }
+
+
 
 }

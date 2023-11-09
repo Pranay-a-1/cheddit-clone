@@ -9,6 +9,7 @@ import com.pranay.cheddit.cheddit.exceptions.UserNotFoundException;
 import com.pranay.cheddit.cheddit.models.User;
 import com.pranay.cheddit.cheddit.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
@@ -54,8 +56,10 @@ public class AuthServiceImpl implements AuthService{
                 .build());
     }
 
+    @Async
     @Override
-    public AuthenticationResponse loginUser(LoginRequest loginRequest) {
+    public CompletableFuture<AuthenticationResponse> loginUser(LoginRequest loginRequest) {
+        log.info("Async loginUser method called on thread: " + Thread.currentThread().getName());
         // Check if user exists
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -71,10 +75,10 @@ public class AuthServiceImpl implements AuthService{
         String jwt = passwordAuthService.generateJwtToken(user);
 
         // Create and return AuthenticationResponse using builder pattern
-        return AuthenticationResponse.builder()
+        return CompletableFuture.completedFuture(AuthenticationResponse.builder()
                 .token(jwt)
                 .username(user.getUsername())
-                .build();
+                .build());
     }
 
 }
