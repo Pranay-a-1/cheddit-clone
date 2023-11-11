@@ -6,16 +6,20 @@ import useSignUpHooks from '../hooks/useSignUpHooks'
 const SignUp = () => {
 
 
-    const { values, signUpSuccess, handleChange, handleSubmit, onSuccessRegister } = useSignUpHooks();
+    const { values, signUpSuccess, handleChange, handleSubmit } = useSignUpHooks();
 
     const { username, email, password, confirmPassword } = values
 
 
     return (
         <>
-            {signUpSuccess && <Button variant="primary" type="button" onClick={onSuccessRegister}>
-                Sign In
-            </Button>}
+            {signUpSuccess && 
+                <NavLink to="/login">
+                    <Button variant="primary" type="button">
+                        Sign In
+                    </Button>
+                </NavLink>
+            }
             <Container fluid="md" >
                 <Card >
                     <Card.Header as="h5">
@@ -60,7 +64,11 @@ const SignUp = () => {
                             <Col>
                                 <Card.Text>
                                     Have an account already?
-                                    <Button variant="light" type="submit" ><NavLink to='/login'>Sign In</NavLink></Button>
+                                    <NavLink to='/login'>
+                                        <Button variant="light" type="button">
+                                            Sign In
+                                        </Button>
+                                    </NavLink>
                                 </Card.Text>
                             </Col>
                         </Row>

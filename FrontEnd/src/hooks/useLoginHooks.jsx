@@ -1,22 +1,13 @@
 import { useState } from 'react';
-import { signUp } from '../api/authApi';
-import { useNavigate } from 'react-router-dom';
-
-const useSignUpHooks = () => {
-
-    let navigate = useNavigate();
+import { login } from '../api/authApi';
 
 
-    const [signUpSuccess, setSignUpSuccess] = useState(false);
+const useLoginHooks = ({ setLogInStatus, setLoggedInUserData }) => {
 
     const [values, setValues] = useState({
-        username: "",
         email: "",
         password: "",
-        confirmPassword: "",
     });
-
-
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -26,16 +17,23 @@ const useSignUpHooks = () => {
         })
     }
 
-    const onSuccessRegister = () => {
-        alert("SignUp successful, please login");
+    const onSuccessLogin = (username) => {
+        alert(`Welcome ${username}`);
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await signUp(values);
-            setSignUpSuccess(true);
-            onSuccessRegister();
+            const res = await login(values);
+            setLogInStatus(res.data.token ? true : false);
+            setLoggedInUserData(res.data);
+            localStorage.setItem("token", res.data.token);
+            //throw error if no username
+            if (res.data.username) {
+                onSuccessLogin(res.data.username);
+            } else {
+                throw new Error('No username');
+            }
         } catch (error) {
             console.log(error);
             // If the response data is a string
@@ -48,13 +46,15 @@ const useSignUpHooks = () => {
             }
             // Default error message if none of the above conditions are met
             else {
-                alert('An error occurred during sign up.');
+                alert('An error occurred during login.');
             }
         }
     };
 
-    return { values, signUpSuccess, handleChange, handleSubmit , onSuccessRegister};
+
+
+    return { values, handleChange, handleSubmit }
 
 }
 
-export default useSignUpHooks;
+export default useLoginHooks;
