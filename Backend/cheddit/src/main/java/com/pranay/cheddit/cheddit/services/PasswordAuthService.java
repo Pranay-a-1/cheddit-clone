@@ -9,4 +9,6 @@ public interface PasswordAuthService {
     String generateJwtToken(User newUser);
 
     boolean validatePassword(String password, String password1);
+
+    String getUserFromToken(String token);
 }

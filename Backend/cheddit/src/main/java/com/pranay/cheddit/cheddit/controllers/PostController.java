@@ -1,10 +1,12 @@
 package com.pranay.cheddit.cheddit.controllers;
 
+import com.pranay.cheddit.cheddit.dto.NewPostRequest;
+import com.pranay.cheddit.cheddit.services.PostService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class PostController {
 
+    private final PostService postService;
+
     @PostMapping("/new-post")
-    public String createNewPost() {
-        return "New Post created";
+    public ResponseEntity<String> createNewPeep(@Valid @RequestBody NewPostRequest newPostRequest) {
+        postService.createNewPost(newPostRequest);
+        return new ResponseEntity<>("New Post created" , HttpStatus.CREATED);
     }
 }

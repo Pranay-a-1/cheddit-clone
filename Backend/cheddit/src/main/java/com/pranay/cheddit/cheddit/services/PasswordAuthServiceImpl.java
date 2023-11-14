@@ -2,15 +2,18 @@ package com.pranay.cheddit.cheddit.services;
 
 import com.pranay.cheddit.cheddit.models.User;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Calendar;
 import java.util.Date;
+import com.pranay.cheddit.cheddit.exceptions.JWTParsingException;
 
 
 @Service
+@Slf4j
 public class PasswordAuthServiceImpl implements PasswordAuthService {
 
 
@@ -40,4 +43,19 @@ public class PasswordAuthServiceImpl implements PasswordAuthService {
     public boolean validatePassword(String password, String password1) {
         return BCrypt.checkpw(password, password1);
     }
+
+
+    @Override
+    public String getUserFromToken(String token) {
+        try {
+            return Jwts.parser().setSigningKey("secretKey123456").parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            // Log the exception (replace 'logger' with your logger instance)
+            log.error("Unable to get user from token", e);
+            // Return null or throw a custom exception
+            throw new JWTParsingException("Unable to parse user from token");
+        }
+    }
+
+
 }
