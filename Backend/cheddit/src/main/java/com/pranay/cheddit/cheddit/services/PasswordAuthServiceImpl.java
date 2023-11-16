@@ -32,7 +32,7 @@ public class PasswordAuthServiceImpl implements PasswordAuthService {
         Date expiryDate = calendar.getTime();
 
         return Jwts.builder()
-                .setSubject(user.getId())
+                .setSubject(user.getUsername())
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.HS256, "secretKey123456") // Use a proper secret key
                 .setExpiration(expiryDate)  // 5 days
