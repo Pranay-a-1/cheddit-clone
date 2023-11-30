@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.pranay.cheddit.cheddit.models.Post;
 import com.pranay.cheddit.cheddit.repositories.UserRepository;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -36,4 +38,11 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
 
     }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
+
+
 }

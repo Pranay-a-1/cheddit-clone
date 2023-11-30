@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import com.pranay.cheddit.cheddit.dto.NewPostRequest;
 import com.pranay.cheddit.cheddit.models.User;
 import com.pranay.cheddit.cheddit.models.Post;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -70,5 +72,33 @@ class PostServiceImplTest {
         // Assert that save method was never called
         verify(postRepository, Mockito.never()).save(any(Post.class));
 
+    }
+
+    @Test
+    void testGetAllPosts_success() {
+        // Arrange
+        Post post = new Post();
+        post.setPostText("This is a post");
+        post.setUser(new User());
+
+        when(postRepository.findAll()).thenReturn(List.of(post));
+
+        // Act
+        java.util.List<Post> result = postService.getAllPosts();
+
+        // Assert
+        assertEquals(List.of(post), result);
+    }
+
+    @Test
+    void testGetAllPosts_noPosts() {
+        // Arrange
+        when(postRepository.findAll()).thenReturn(List.of());
+
+        // Act
+        java.util.List<Post> result = postService.getAllPosts();
+
+        // Assert
+        assertEquals(List.of(), result);
     }
 }
