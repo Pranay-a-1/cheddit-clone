@@ -17,7 +17,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/new-post")
-    public ResponseEntity<String> createNewPeep(@Valid @RequestBody NewPostRequest newPostRequest) {
+    public ResponseEntity<String> createNewPost(@Valid @RequestBody NewPostRequest newPostRequest) {
         postService.createNewPost(newPostRequest);
         return new ResponseEntity<>("New Post created" , HttpStatus.CREATED);
     }

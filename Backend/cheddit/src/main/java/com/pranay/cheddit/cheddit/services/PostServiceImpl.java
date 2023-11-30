@@ -4,6 +4,7 @@ import com.pranay.cheddit.cheddit.dto.NewPostRequest;
 import com.pranay.cheddit.cheddit.exceptions.UserNotFoundException;
 import com.pranay.cheddit.cheddit.repositories.PostRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.pranay.cheddit.cheddit.models.Post;
 import com.pranay.cheddit.cheddit.repositories.UserRepository;
@@ -16,6 +17,7 @@ public class PostServiceImpl implements PostService {
     private final PasswordAuthService passwordAuthService;
     private final UserRepository userRepository;
 
+    @Async
     @Override
     public void createNewPost(NewPostRequest newPostRequest) {
         // remove the Word Bearer from the token

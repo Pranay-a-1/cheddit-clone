@@ -15,9 +15,9 @@ const SignupButton = () => (
     </NavLink>
   );
 
-const NewPeepButton = () => (
-    <NavLink to="/new-peep">
-      <IoCreateSharp />New Peep
+const NewPostButton = () => (
+    <NavLink to="/new-post">
+      <IoCreateSharp />New Post
     </NavLink>
   );
 
@@ -34,4 +34,4 @@ const LogoutButton = () => (
   );
 
 
-export { LoginButton, SignupButton, NewPeepButton, WelcomeButton, LogoutButton };
+export { LoginButton, SignupButton, NewPostButton, WelcomeButton, LogoutButton };

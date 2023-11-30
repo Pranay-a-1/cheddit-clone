@@ -20,18 +20,18 @@ describe ('Header Tests', () => {
         expect(screen.getByText(/Signup/i)).toBeInTheDocument();
     });
 
-    it('should not render New Peep, Welcome, and Logout buttons when user is not logged in', () => {
+    it('should not render New Post, Welcome, and Logout buttons when user is not logged in', () => {
     const loggedInUserData = false;
     render(<Header loggedInUserData={loggedInUserData} />, { wrapper: BrowserRouter });
-    expect(screen.queryByText(/New Peep/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/New Post/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Welcome/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Logout/i)).not.toBeInTheDocument();
     });
 
-    it('should render New Peep, Welcome, and Logout buttons when user is logged in', () => {
+    it('should render New Post, Welcome, and Logout buttons when user is logged in', () => {
     const loggedInUserData = { username: 'Test User' };
     render(<Header loggedInUserData={loggedInUserData} />, { wrapper: BrowserRouter });
-    expect(screen.getByText(/New Peep/i)).toBeInTheDocument();
+    expect(screen.getByText(/New Post/i)).toBeInTheDocument();
     expect(screen.getByText(/Welcome Test User/i)).toBeInTheDocument();
     expect(screen.getByText(/Logout/i)).toBeInTheDocument();
     });

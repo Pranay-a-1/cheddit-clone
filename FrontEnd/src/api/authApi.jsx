@@ -8,3 +8,7 @@ export const signUp = async (userData) => {
 export const login = async (userData) => {
     return axios.post(`${API_BASE_URL}/user/login`, userData);
 }
+
+export const createNewPost = async (postData) => {
+    return axios.post(`${API_BASE_URL}/new-post`, postData);
+}

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Signup from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import NewPost from "./pages/NewPost";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Header loggedInUserData={loggedInUserData}/>
           <Routes>
           <Route path="/signup" element={<Signup />} />
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/new-post" element={<NewPost />} />
           <Route path="/login" element={<Login setLogInStatus={setLogInStatus} loginStatus={loginStatus} setLoggedInUserData={setLoggedInUserData} />} />
           <Route path="/" element={<Home />} />
 
