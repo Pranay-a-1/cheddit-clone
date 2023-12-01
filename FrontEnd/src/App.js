@@ -6,6 +6,7 @@ import Signup from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import NewPost from "./pages/NewPost";
+import backgroundImage from './assets/abstractelement-blue-yellow-8bit.png'; // Import the image
 
 
 function App() {
@@ -16,7 +17,10 @@ function App() {
 
   return (
     <>
-      <Container fluid="md">
+      <Container fluid="md" style={{ 
+                  backgroundImage: `url(${backgroundImage})`, 
+                  backgroundSize: 'cover', 
+                  backgroundRepeat: 'no-repeat' }}>
         <BrowserRouter>
           <Header loggedInUserData={loggedInUserData}/>
           <Routes>

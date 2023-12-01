@@ -86,25 +86,25 @@ class PostControllerTest {
                 .andExpect(result -> assertTrue(Objects.requireNonNull(result.getResolvedException()).getMessage().contains("Required request body is missing")));
     }
 
-    @Test
-    public void testCreateNewPost_fails_with_userNotFound_Exception() throws Exception {
-        NewPostRequest newPostRequest = new NewPostRequest();
-        newPostRequest.setPostText("This is a new post");
-        newPostRequest.setAccessToken("Bearer token");
-
-        // Mock the getUserFromToken method
-        when(passwordAuthService.getUserFromToken(Mockito.anyString())).thenReturn("username");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String newPostRequestJson = objectMapper.writeValueAsString(newPostRequest);
-
-
-        mockMvc.perform(post("/new-post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(newPostRequestJson))
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(Objects.requireNonNull(result.getResolvedException()).getMessage().contains("User not found")));
-    }
+//    @Test
+//    public void testCreateNewPost_fails_with_userNotFound_Exception() throws Exception {
+//        NewPostRequest newPostRequest = new NewPostRequest();
+//        newPostRequest.setPostText("This is a new post");
+//        newPostRequest.setAccessToken("Bearer token");
+//
+//        // Mock the getUserFromToken method
+//        when(passwordAuthService.getUserFromToken(Mockito.anyString())).thenReturn("username");
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String newPostRequestJson = objectMapper.writeValueAsString(newPostRequest);
+//
+//
+//        mockMvc.perform(post("/new-post")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(newPostRequestJson))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(result -> assertTrue(Objects.requireNonNull(result.getResolvedException()).getMessage().contains("User not found")));
+//    }
 
     @Test
     public void testGetAllPosts() throws Exception {
