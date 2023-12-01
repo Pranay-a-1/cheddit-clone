@@ -78,6 +78,23 @@ The "Cheddit-Clone" repository provides a cloned functionality of Reddit. Writte
 
 ---
 
+## 🛣 Project Roadmap
+
+> - [X] `ℹ️  Task 1: Use JWT`
+> - [X] `ℹ️  Task 2: Use Asyn `
+> - [] `ℹ️  Task 3: Add create community feature  `
+> - [ ] `ℹ️ Task 5: Add Delete post feature `
+> - [ ] `ℹ️ Task 6: Implement factory configuration class`
+> - [ ] `ℹ️ Task 7 : Deploy Backend to Heroku`
+> - [ ] `ℹ️ Task 8: Deploy Front end to Netlify`
+> - [ ] `ℹ️ Task 9: Add email feature`
+> - [ ] `ℹ️ Task 10: Add Refresh Token`
+
+
+---
+
+---
+
 
 ## 📂 Repository Structure
 
@@ -425,19 +442,6 @@ mvn test
 ```
 
 ---
-
-
-## 🛣 Project Roadmap
-
-> - [X] `ℹ️  Task 1: Use JWT`
-> - [X] `ℹ️  Task 2: Use Asyn `
-> - [] `ℹ️  Task 3: Add create community feature  `
-> - [ ] `ℹ️ Task 5: Add Delete post feature `
-> - [ ] `ℹ️ Task 6: Implement factory configuration class`
-> - [ ] `ℹ️ Task 7 : Deploy Backend to Heroku`
-> - [ ] `ℹ️ Task 8: Deploy Front end to Netlify`
-> - [ ] `ℹ️ Task 9: Add email feature`
-> - [ ] `ℹ️ Task 10: Add Refresh Token`
 
 
 ---
