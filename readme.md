@@ -30,7 +30,7 @@
 - [📍 Overview](#-overview)
 - [📦 Features](#-features)
 - [📂 repository Structure](#-repository-structure)
-- [⚙️ Modules](#modules)
+<!-- - [⚙️ Modules](#modules) -->
 - [🚀 Getting Started](#-getting-started)
     - [🔧 Installation](#-installation)
     - [🤖 Running cheddit-clone](#-running-cheddit-clone)
@@ -48,8 +48,32 @@ The "Cheddit-Clone" repository provides a cloned functionality of Reddit. Writte
 
 ## 📦 Features
 
-Custom Exception Handling
-JWT Authentication
+# User Authentication System
+
+- **Robust Registration and Login:** Implements a secure user registration and login process, ensuring data integrity and security.
+- **Exception Handling:** Integrates specialized exception handling for scenarios like existing user conflicts and incorrect password entries.
+- **Asynchronous Processing:** Utilizes CompletableFuture for handling asynchronous operations in the authentication process, enhancing system responsiveness and scalability.
+
+# Data Validation and Integrity
+
+- **Automated User Input Validation:** Leverages Jakarta validation constraints to automatically validate user inputs during registration, ensuring compliance with defined standards such as email format and password length.
+- **Secure Password Handling:** Incorporates password hashing and validation techniques, fortifying the system against common security threats.
+
+# Global Exception Handling
+
+- **Centralized Error Management:** Features a global exception handler to uniformly manage and respond to various exceptions, streamlining error handling and improving code maintainability.
+- **Custom Exception Classes:** Implements custom exception classes for specific scenarios like UserAlreadyExistsException, PasswordsDoNotMatchException, and UserNotFoundException, providing clear and meaningful feedback to the user.
+
+# Efficient User Model Design
+
+- **Comprehensive User Representation:** The User model is designed to effectively represent users, encompassing essential fields with data validation annotations.
+- **Timestamp Management:** Automatically handles creation and update timestamps for user data, facilitating data tracking and integrity.
+
+
+# Clean and Maintainable Code Structure
+
+- **Modular Design:** Adopts a modular approach to software design, enhancing code readability and maintainability.
+- **Comprehensive Documentation:** All classes and methods are well-documented, aiding in understanding and future development efforts.
 
 
 ---
@@ -59,32 +83,86 @@ JWT Authentication
 
 ```sh
 └── cheddit-clone/
-    ├── Backend/
-    │   └── cheddit/
-    │       ├── .mvn/
-    │       ├── mvnw
-    │       ├── mvnw.cmd
-    │       └── src/
+    ├── Backend/cheddit/src/main/java/com/pranay/cheddit/
+│        ├── ChedditApplication.java
+│        ├── controllers/
+│        │   ├── AuthController.java
+│        │   └── PostController.java
+│        ├── dto/
+│        │   ├── AuthenticationResponse.java
+│        │   ├── LoginRequest.java
+│        │   ├── NewPostRequest.java
+│        │   └── RegisterRequest.java
+│        ├── exceptions/
+│        │   ├── GlobalExceptionHandler.java
+│        │   ├── JWTParsingException.java
+│        │   ├── PasswordsDoNotMatchException.java
+│        │   ├── UserAlreadyExistsException.java
+│        │   └── UserNotFoundException.java
+│        ├── models/
+│        │   ├── Post.java
+│        │   └── User.java
+│        ├── repositories/
+│        │   ├── PostRepository.java
+│        │   └── UserRepository.java
+│        └── services/
+│            ├── AuthService.java
+│            ├── AuthServiceImpl.java
+│            ├── PasswordAuthService.java
+│            ├── PasswordAuthServiceImpl.java
+│            ├── PostService.java
+│            └── PostServiceImpl.java
+│       └── test/java/com/pranay/cheddit/
+│           ├── ChedditApplicationTests.java
+│               ├── controllers/
+│                    │   ├── AuthControllerTest.java
+│                    │   └── PostControllerTest.java
+│                    └── services/
+		         ├── AuthServiceImplTest.java
+		         └── PostServiceImplTest.java
     └── FrontEnd/
-        ├── package-lock.json
-        ├── package.json
-        ├── public/
-        │   ├── index.html
-        │   ├── manifest.json
-        │   └── robots.txt
-        └── src/
-            ├── App.js
-            ├── api/
-            ├── components/
-            ├── config/
-            ├── hooks/
-            ├── index.js
-            ├── pages/
-            ├── setupTests.js
-            └── test/
-
+        ├── src/
+        │   ├── App.js
+        │   ├── api/
+        │   │   └── authApi.jsx
+        │   ├── assets/
+        │   │   └── abstractelement-blue-yellow-8bit.png
+        │   ├── components/
+        │   │   ├── Header/
+        │   │   │   ├── Header.jsx
+        │   │   │   └── HeaderButton.jsx
+        │   │   └── Post/
+        │   │       └── Post.jsx
+        │   ├── config/
+        │   │   └── apiConfig.js
+        │   ├── hooks/
+        │   │   ├── useLoginHooks.jsx
+        │   │   ├── useNewPostHooks.jsx
+        │   │   └── useSignUpHooks.jsx
+        │   ├── index.js
+        │   ├── logo.svg
+        │   └── pages/
+        │       ├── Home.jsx
+        │       ├── Login.jsx
+        │       ├── NewPost.jsx
+        │       └── SignUp.jsx
+        └── test/
+            ├── AppTests/
+            │   ├── App.test.jsx
+            │   └── index.test.jsx
+            ├── componentTests/
+            │   ├── Header.test.jsx
+            │   └── Post.test.jsx
+            ├── hookTests/
+            │   ├── useLoginHooks.test.jsx
+            │   ├── useNewPostHooks.test.jsx
+            │   └── useSignUpHooks.test.jsx
+            └── pageTests/
+                ├── NewPage.test.jsx
+                ├── login.test.jsx
+                └── signUp.test.jsx
 ```
-
+<!-- 
 ---
 
 
@@ -94,10 +172,8 @@ JWT Authentication
 
 | File                                                                                                                                                                        | Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ---                                                                                                                                                                         | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| [mvnw](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/mvnw)                                                                                          | The script is a Maven Wrapper (mvnw) used to standardize a project's build on Apache Maven, a software project management tool. It checks for the appropriate Java environment, determines the Maven configuration required, and downloads the specified Maven version if necessary. It supports different operating systems, considering system-specific nuances, handling optional environment variables and automatically downloading Maven wrapper's jar file from Maven central if not present in the project directory.            |
-| [mvnw.cmd](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/mvnw.cmd)                                                                                  | The provided script is an Apache Maven Wrapper startup batch script for Windows. It is used to provide an environment-specific way to run Maven, a build automation tool for Java applications. The script includes checks and setup for environment variables like JAVA_HOME and MAVEN_OPTS, as well as enabling the download of the maven-wrapper.jar if not present. It handles project directory setting, executes a user defined pre-script, runs the Maven command and finally executes a post-script.                             |
-| [ChedditApplicationTests.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/test/java/com/pranay/cheddit/cheddit/ChedditApplicationTests.java) | The provided directory tree and code suggest it's a framework for a Reddit clone application named "Cheddit". The system is split into backend and frontend. The backend uses Java with Spring Boot, as suggested by the SpringBootTest annotation, and Maven for build automation. The frontend is presumably built in JavaScript, perhaps using React, as suggested by the presence of an App.js component and a package.json file. The mentioned Java code establishes a testing environment to validate application context loading. |
-| [ChedditApplication.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/main/java/com/pranay/cheddit/cheddit/ChedditApplication.java)           | The code represents a structured Java Spring application named'ChedditApplication'. It includes the use of MongoDB as a database and supports asynchronous operations. Spring Boot's auto-configuration sets up the application context. The file distribution includes frontend files, structured with React components, configurations, and tests. The package.json manages dependencies and scripts while package-lock.json ensures stability across installations.                                                                   |
+
+| [ChedditApplication.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/main/java/com/pranay/cheddit/cheddit/ChedditApplication.java)           | The code represents a structured Java Spring application named'ChedditApplication'. It includes the use of MongoDB as a database and supports asynchronous operations. Spring Boot's auto-configuration sets up the application context.                                                                   |
 
 </details>
 
@@ -107,7 +183,7 @@ JWT Authentication
 | ---                                                                                                                                                                           | ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | [PostControllerTest.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/test/java/com/pranay/cheddit/cheddit/controllers/PostControllerTest.java) | The code is a set of unit tests for a'PostController' of a Reddit-like application. It verifies successful creation of a new post under various conditions, tests error handling when a post is created with an empty body or an unrecognized user, and whether all posts are successfully fetched. It also handles exceptions when fetching posts fails. The tests use Mockito for mocking objects and Spring's MockMvc for performing mock HTTP requests.                            |
 | [AuthControllerTest.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/test/java/com/pranay/cheddit/cheddit/controllers/AuthControllerTest.java) | The provided code is a test suite for the Authentication controller in a Reddit-style forum application. It presents tests for registration and login functionalities. The tests cover a range of scenarios including successful registration and login, invalid username, invalid email, login failure, and an exception scenario during login. The testing framework used is JUnit and it incorporates mock objects using Mockito and Spring's MockMvc for simulating HTTP requests. |
-| [AuthController.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/main/java/com/pranay/cheddit/cheddit/controllers/AuthController.java)         | This Java-based AuthController is part of a backend module for a'Cheddit' application. It provides RESTful APIs for user registration and login. The controller uses an AuthService to perform these operations asynchronously, returning either a successful response or a bad request upon failure. It also contains logging and supports Cross-Origin requests. The FrontEnd directory hints at an associated front-end application, built with JavaScript.                         |
+| [AuthController.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/main/java/com/pranay/cheddit/cheddit/controllers/AuthController.java)         | This Java-based AuthController is part of a backend module for a'Cheddit' application. It provides RESTful APIs for user registration and login. The controller uses an AuthService to perform these operations asynchronously, returning either a successful response or a bad request upon failure. It also contains logging and supports Cross-Origin requests.                 |
 | [PostController.java](https://github.com/Pranay-a-1/cheddit-clone/blob/main/Backend/cheddit/src/main/java/com/pranay/cheddit/cheddit/controllers/PostController.java)         | The provided code pertains to the backend of a Reddit-like application, "Cheddit." It defines a'PostController' class that employs the'PostService' class to handle requests related to posts. It features the'allPosts' method which fetches all posts, and the'createNewPost' method that enables the creation of a new post. Both methods return the respective data or status encapsulated in an HTTP response entity.                                                             |
 
 </details>
@@ -312,7 +388,7 @@ JWT Authentication
 | ---                                                                                               | ---                                                                                                                                                                                                                                                                                                                                                                                                              |
 | [authApi.jsx](https://github.com/Pranay-a-1/cheddit-clone/blob/main/FrontEnd/src/api/authApi.jsx) | The provided code is responsible for sending API requests in a Cheddit clone application. It employs Axios to make HTTP requests to the backend, including user registration and login functions, post creation, and retrieval of all posts. It also employs JWT for authorization in the HTTP headers when fetching all posts. The base URL for all APIs is referenced from a config file, ensuring modularity. |
 
-</details>
+</details> -->
 
 ---
 
