@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -42,8 +42,8 @@ public class AuthServiceImpl implements AuthService{
         String hashedPassword = passwordAuthService.hashPassword(registerRequest.getPassword());
 
         // Create and save user
-        User newUser = new User(null, registerRequest.getUsername(),
-                registerRequest.getEmail(), hashedPassword);
+               User newUser = new User(registerRequest.getUsername(),
+                registerRequest.getEmail(), hashedPassword, LocalDateTime.now(), LocalDateTime.now());
         userRepository.save(newUser);
 
         // Generate JWT token

@@ -7,8 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -28,4 +32,18 @@ public class User {
     @NotBlank(message = "Please add a valid Password")
     private String password;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+
+    public User(String username, String email, String hashedPassword, LocalDateTime now, LocalDateTime now1) {
+        this.username = username;
+        this.email = email;
+        this.password = hashedPassword;
+        this.createdAt = now;
+        this.updatedAt = now1;
+    }
 }
